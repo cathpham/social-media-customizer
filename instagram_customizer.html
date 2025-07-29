@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Post Customizer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a more Instagram-like feel */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Hide default file input */
+        input[type="file"] {
+            display: none;
+        }
+        /* Style the custom file input label */
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #4b5563; /* text-gray-700 */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s;
+        }
+        .custom-file-upload:hover {
+            background-color: #e5e7eb; /* bg-gray-200 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col lg:flex-row items-center lg:items-start justify-center min-h-screen p-4 space-y-8 lg:space-y-0 lg:space-x-8">
+
+    <!-- Customization Form -->
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200 lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)] lg:overflow-y-auto">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Customize Instagram Post</h2>
+
+        <div class="space-y-4">
+            <div>
+                <label for="inputUsername" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="inputUsername" value="the_movie_star" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div>
+                <label for="inputLocation" class="block text-sm font-medium text-gray-700">Location (Optional)</label>
+                <input type="text" id="inputLocation" value="Hollywood Hills" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div>
+                <label for="inputProfilePic" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+                <label for="inputProfilePic" class="custom-file-upload">
+                    Upload Profile Pic
+                </label>
+                <input type="file" id="inputProfilePic" accept="image/*" class="mt-1 block w-full">
+            </div>
+            <div>
+                <label for="inputPostImage" class="block text-sm font-medium text-gray-700 mb-1">Post Image</label>
+                <label for="inputPostImage" class="custom-file-upload">
+                    Upload Post Image
+                </label>
+                <input type="file" id="inputPostImage" accept="image/*" class="mt-1 block w-full">
+            </div>
+            <div>
+                <label for="inputLikes" class="block text-sm font-medium text-gray-700">Likes</label>
+                <input type="number" id="inputLikes" value="5432109" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div>
+                <label for="inputComments" class="block text-sm font-medium text-gray-700">Comments</label>
+                <input type="number" id="inputComments" value="123456" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div>
+                <label for="inputShare" class="block text-sm font-medium text-gray-700">Shares</label>
+                <input type="number" id="inputShare" value="6" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div>
+                <label for="inputCaption" class="block text-sm font-medium text-gray-700">Caption</label>
+                <textarea id="inputCaption" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">Unforgettable night at the premiere! So grateful for all the love and support. This film is going to be epic! 🎬 #premiere #blockbuster #hollywood</textarea>
+            </div>
+            <div>
+                <label for="inputTimeAgo" class="block text-sm font-medium text-gray-700">Time Ago Text</label>
+                <input type="text" id="inputTimeAgo" value="2 MINUTES AGO" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" id="inputBlueTick" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="inputBlueTick" class="ml-2 block text-sm text-gray-900">Show Blue Tick (Verified)</label>
+            </div>
+            <button id="generatePostBtn" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-semibold">Generate Post</button>
+            <a href="index.html" class="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 font-semibold text-center block mt-2">Back to Main Page</a>
+            <a href="x_customizer.html" class="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 font-semibold text-center block mt-2">Go to X Customizer</a>
+        </div>
+    </div>
+
+    <!-- Instagram Post Preview -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden max-w-sm w-full">
+
+        <!-- Post Header -->
+        <div class="flex items-center p-3 border-b border-gray-100">
+            <img id="profilePicPreview" src="https://placehold.co/40x40/8A2BE2/FFFFFF?text=MS" alt="Profile Picture" class="w-10 h-10 rounded-full mr-3 object-cover border border-gray-300">
+            <div class="flex-grow">
+                <div class="flex items-center">
+                    <span id="usernamePreview" class="font-semibold text-gray-900 text-sm">the_movie_star</span>
+                    <!-- Blue Tick SVG -->
+                    <svg id="blueTickPreview" class="ml-1 hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#4299e1">
+                        <circle cx="12" cy="12" r="10" fill="#4299e1"/>
+                        <path d="M9 12l2 2 4-4" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p id="locationPreview" class="text-xs text-gray-500">Hollywood Hills</p>
+            </div>
+            <!-- More options icon (three dots) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-ellipsis text-gray-500"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        </div>
+
+        <!-- Post Image -->
+        <div class="w-full bg-gray-100 flex items-center justify-center">
+            <img id="postImagePreview" src="https://placehold.co/600x600/FF6347/FFFFFF?text=MOVIE+PREMIERE" alt="Post Content" class="w-full h-auto object-cover max-h-[500px]">
+        </div>
+
+        <!-- Post Actions and Counts -->
+        <div class="p-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <!-- Like Button and Count -->
+                <div class="flex items-center space-x-1">
+                    <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    </button>
+                    <span id="likesCountPreview" class="text-sm font-semibold text-gray-800">1.2K</span>
+                </div>
+                <!-- Comment Button and Count -->
+                <div class="flex items-center space-x-1">
+                    <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    </button>
+                    <span id="inlineCommentsCountPreview" class="text-sm font-semibold text-gray-800">57</span>
+                </div>
+                <!-- Share/DM Button and Count -->
+                <div class="flex items-center space-x-1">
+                    <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg width="24" height="24" viewBox="0 0 6.35 6.35" version="1.1" xml:space="preserve" fill="none" stroke="currentColor" strokeLinecap="butt" strokeLinejoin="miter">
+                            <g id="layer1">
+                                <g id="g2" transform="matrix(1.6284876,-0.02587901,0.02481837,1.5617448,-103.19364,-267.2457)" style="stroke-width:0.08294313;stroke-dasharray:none">
+                                    <path style="fill:none;stroke:#000000;stroke-width:0.08294313;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" d="m 60.990929,172.78834 3.414101,0.0579 -1.735984,2.95117 -0.405061,-1.67812 z" id="path1" />
+                                    <path style="fill:none;stroke:#000000;stroke-width:0.08294313;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1" d="m 62.155326,174.09016 2.209967,-1.25231" id="path2" />
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+                    <span id="shareCountPreview" class="text-sm font-semibold text-gray-800">6</span>
+                </div>
+            </div>
+            <!-- Bookmark Button -->
+            <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-bookmark"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+            </button>
+        </div>
+
+        <!-- Post Caption -->
+        <div class="px-3 pb-2 text-sm">
+            <span id="captionUsernamePreview" class="font-semibold mr-1">celebrity_extraordinaire</span>
+            <span id="captionTextPreview">So thrilled to share this amazing moment with all of you! Your support means the world! ✨ #blessed #viral #makingmovies</span>
+        </div>
+
+        <!-- View all comments -->
+        <div class="px-3 pb-2 text-xs text-gray-500">
+            View all <span id="viewAllCommentsCountPreview">98,765</span> comments
+        </div>
+
+        <!-- Time Posted -->
+        <div class="px-3 pb-3 text-xs text-gray-400 uppercase">
+            <span id="timeAgoPreview">1 HOUR AGO</span>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to input elements
+            const inputUsername = document.getElementById('inputUsername');
+            const inputLocation = document.getElementById('inputLocation');
+            const inputProfilePic = document.getElementById('inputProfilePic');
+            const inputPostImage = document.getElementById('inputPostImage');
+            const inputLikes = document.getElementById('inputLikes');
+            const inputComments = document.getElementById('inputComments');
+            const inputShare = document.getElementById('inputShare');
+            const inputCaption = document.getElementById('inputCaption');
+            const inputTimeAgo = document.getElementById('inputTimeAgo');
+            const inputBlueTick = document.getElementById('inputBlueTick');
+            const generatePostBtn = document.getElementById('generatePostBtn');
+
+            // Get references to preview elements
+            const usernamePreview = document.getElementById('usernamePreview');
+            const locationPreview = document.getElementById('locationPreview');
+            const profilePicPreview = document.getElementById('profilePicPreview');
+            const postImagePreview = document.getElementById('postImagePreview');
+            const likesCountPreview = document.getElementById('likesCountPreview');
+            const inlineCommentsCountPreview = document.getElementById('inlineCommentsCountPreview');
+            const shareCountPreview = document.getElementById('shareCountPreview');
+            const captionUsernamePreview = document.getElementById('captionUsernamePreview');
+            const captionTextPreview = document.getElementById('captionTextPreview');
+            const viewAllCommentsCountPreview = document.getElementById('viewAllCommentsCountPreview');
+            const timeAgoPreview = document.getElementById('timeAgoPreview');
+            const blueTickPreview = document.getElementById('blueTickPreview');
+
+            // Function to update the post preview
+            const updatePostPreview = () => {
+                usernamePreview.textContent = inputUsername.value;
+                locationPreview.textContent = inputLocation.value;
+                likesCountPreview.textContent = formatCount(parseInt(inputLikes.value));
+                inlineCommentsCountPreview.textContent = formatCount(parseInt(inputComments.value));
+                shareCountPreview.textContent = formatCount(parseInt(inputShare.value));
+                captionUsernamePreview.textContent = inputUsername.value;
+                captionTextPreview.textContent = inputCaption.value;
+                viewAllCommentsCountPreview.textContent = parseInt(inputComments.value).toLocaleString();
+                timeAgoPreview.textContent = inputTimeAgo.value.toUpperCase();
+
+                if (inputBlueTick.checked) {
+                    blueTickPreview.classList.remove('hidden');
+                } else {
+                    blueTickPreview.classList.add('hidden');
+                }
+            };
+
+            // Helper function to format numbers (e.g., 1200 -> 1.2K)
+            function formatCount(num) {
+                if (isNaN(num)) return '0';
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                }
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                }
+                return num.toLocaleString();
+            }
+
+            // Handle profile picture upload
+            inputProfilePic.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => { profilePicPreview.src = e.target.result; };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Handle post image upload
+            inputPostImage.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => { postImagePreview.src = e.target.result; };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Event listener for the Generate Post button
+            generatePostBtn.addEventListener('click', updatePostPreview);
+
+            // Add event listeners to input fields for real-time updates
+            inputUsername.addEventListener('input', updatePostPreview);
+            inputLocation.addEventListener('input', updatePostPreview);
+            inputLikes.addEventListener('input', updatePostPreview);
+            inputComments.addEventListener('input', updatePostPreview);
+            inputShare.addEventListener('input', updatePostPreview);
+            inputCaption.addEventListener('input', updatePostPreview);
+            inputTimeAgo.addEventListener('input', updatePostPreview);
+            inputBlueTick.addEventListener('change', updatePostPreview);
+
+            // Initial update on page load
+            updatePostPreview();
+
+            // Fallback for image loading errors
+            profilePicPreview.onerror = function() { this.src = "https://placehold.co/40x40/CCCCCC/000000?text=User"; };
+            postImagePreview.onerror = function() { this.src = "https://placehold.co/600x600/E0E0E0/888888?text=Image+Error"; };
+        });
+    </script>
+</body>
+</html>
