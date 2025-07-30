@@ -1,10 +1,23 @@
+Here's an updated version of your HTML code with a **dark theme option**. I've added a toggle button and implemented JavaScript to switch between light and dark modes, saving your preference in local storage.
+
+Key changes include:
+
+1.  **Theme Toggle Button:** A button has been added to the customization form to switch themes.
+2.  **Tailwind `dark:` variant:** I've applied Tailwind CSS's `dark:` variant to relevant elements (backgrounds, text colors, borders) so they automatically adjust when the `dark` class is present on the `<html>` tag.
+3.  **JavaScript Logic:**
+      * A function `applyTheme` handles adding or removing the `dark` class from the `<html>` element and updates the button text.
+      * On page load, it checks `localStorage` for a saved theme preference and applies it.
+      * The toggle button uses this function to switch themes and save the new preference.
+
+<!-- end list -->
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>X Post Customizer</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom font for a more Twitter-like feel */
@@ -33,60 +46,80 @@
         .custom-file-upload:hover {
             background-color: #e5e7eb; /* bg-gray-200 */
         }
+
+        /* Dark mode styles for custom file upload */
+        html.dark .custom-file-upload {
+            background-color: #374151; /* bg-gray-700 */
+            color: #d1d5db; /* text-gray-300 */
+            border-color: #4b5563; /* border-gray-600 */
+        }
+        html.dark .custom-file-upload:hover {
+            background-color: #4b5563; /* bg-gray-600 */
+        }
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col lg:flex-row items-center lg:items-start justify-center min-h-screen p-4 space-y-8 lg:space-y-0 lg:space-x-8">
+<body class="bg-gray-100 dark:bg-gray-900 flex flex-col lg:flex-row items-center lg:items-start justify-center min-h-screen p-4 space-y-8 lg:space-y-0 lg:space-x-8 transition-colors duration-300">
 
-    <!-- Customization Form -->
-    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200 lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)] lg:overflow-y-auto">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Customize X Post</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-full max-w-md border border-gray-200 dark:border-gray-700 lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)] lg:overflow-y-auto transition-colors duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">Customize X Post</h2>
+            <button id="themeToggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300">
+                <svg id="sunIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H2m15.325 5.587l.707.707M5.968 5.968l-.707-.707M18.364 5.636l.707-.707M5.636 18.364l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg id="moonIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+        </div>
+
 
         <div class="space-y-4">
             <div>
-                <label for="inputUsername" class="block text-sm font-medium text-gray-700">Username</label>
-                <input type="text" id="inputUsername" value="FamousActor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputUsername" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                <input type="text" id="inputUsername" value="FamousActor" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputHandle" class="block text-sm font-medium text-gray-700">Handle (@)</label>
-                <input type="text" id="inputHandle" value="FamousActorOfficial" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputHandle" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Handle (@)</label>
+                <input type="text" id="inputHandle" value="FamousActorOfficial" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputProfilePic" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
+                <label for="inputProfilePic" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Profile Picture</label>
                 <label for="inputProfilePic" class="custom-file-upload">
                     Upload Profile Pic
                 </label>
                 <input type="file" id="inputProfilePic" accept="image/*" class="mt-1 block w-full">
             </div>
             <div>
-                <label for="inputPostText" class="block text-sm font-medium text-gray-700">Post Text</label>
-                <textarea id="inputPostText" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">Just wrapped filming on set! This movie is going to be an absolute game-changer. So excited for you all to see it! #NewMovie #BehindTheScenes #FilmLife</textarea>
+                <label for="inputPostText" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Post Text</label>
+                <textarea id="inputPostText" rows="4" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">Just wrapped filming on set! This movie is going to be an absolute game-changer. So excited for you all to see it! #NewMovie #BehindTheScenes #FilmLife</textarea>
             </div>
             <div>
-                <label for="inputImagePost" class="block text-sm font-medium text-gray-700 mb-1">Image in Post (Optional)</label>
+                <label for="inputImagePost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image in Post (Optional)</label>
                 <label for="inputImagePost" class="custom-file-upload">
                     Upload Post Image
                 </label>
                 <input type="file" id="inputImagePost" accept="image/*" class="mt-1 block w-full">
             </div>
             <div>
-                <label for="inputComments" class="block text-sm font-medium text-gray-700">Comments</label>
-                <input type="number" id="inputComments" value="15000" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputComments" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Comments</label>
+                <input type="number" id="inputComments" value="15000" min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputRetweets" class="block text-sm font-medium text-gray-700">Retweets</label>
-                <input type="number" id="inputRetweets" value="25000" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputRetweets" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Retweets</label>
+                <input type="number" id="inputRetweets" value="25000" min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputLikes" class="block text-sm font-medium text-gray-700">Likes</label>
-                <input type="number" id="inputLikes" value="150000" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputLikes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Likes</label>
+                <input type="number" id="inputLikes" value="150000" min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputViews" class="block text-sm font-medium text-gray-700">Views</label>
-                <input type="number" id="inputViews" value="5000000" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputViews" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Views</label>
+                <input type="number" id="inputViews" value="5000000" min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <div>
-                <label for="inputTimestamp" class="block text-sm font-medium text-gray-700">Timestamp (e.g., 10:30 PM · Jul 29, 2025)</label>
-                <input type="text" id="inputTimestamp" value="10:30 PM · Jul 29, 2025" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                <label for="inputTimestamp" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Timestamp (e.g., 10:30 PM · Jul 29, 2025)</label>
+                <input type="text" id="inputTimestamp" value="10:30 PM · Jul 29, 2025" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 transition-colors duration-300">
             </div>
             <button id="generatePostBtn" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-semibold">Generate X Post</button>
             <a href="index.html" class="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 font-semibold text-center block mt-2">Back to Main Page</a>
@@ -94,54 +127,43 @@
         </div>
     </div>
 
-    <!-- X Post Preview -->
-    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden max-w-sm w-full p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden max-w-sm w-full p-4 transition-colors duration-300">
 
-        <!-- Post Header -->
         <div class="flex items-start justify-between mb-2">
             <div class="flex items-center">
-                <img id="profilePicPreview" src="https://placehold.co/48x48/000000/FFFFFF?text=FA" alt="Profile Picture" class="w-12 h-12 rounded-full mr-3 object-cover border border-gray-100">
+                <img id="profilePicPreview" src="https://placehold.co/48x48/000000/FFFFFF?text=FA" alt="Profile Picture" class="w-12 h-12 rounded-full mr-3 object-cover border border-gray-100 dark:border-gray-700">
                 <div>
-                    <span id="usernamePreview" class="font-bold text-gray-900 text-base">FamousActor</span>
-                    <span id="handlePreview" class="text-gray-500 text-sm block">@FamousActorOfficial</span>
+                    <span id="usernamePreview" class="font-bold text-gray-900 dark:text-gray-100 text-base">FamousActor</span>
+                    <span id="handlePreview" class="text-gray-500 dark:text-gray-400 text-sm block">@FamousActorOfficial</span>
                 </div>
             </div>
-            <!-- More options icon (three dots) -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-ellipsis text-gray-500"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-ellipsis text-gray-500 dark:text-gray-400"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
         </div>
 
-        <!-- Post Text Content -->
-        <p id="postTextPreview" class="text-gray-900 text-base mb-3 leading-relaxed">Just wrapped filming on set! This movie is going to be an absolute game-changer. So excited for you all to see it! #NewMovie #BehindTheScenes #FilmLife</p>
+        <p id="postTextPreview" class="text-gray-900 dark:text-gray-100 text-base mb-3 leading-relaxed">Just wrapped filming on set! This movie is going to be an absolute game-changer. So excited for you all to see it! #NewMovie #BehindTheScenes #FilmLife</p>
 
-        <!-- Optional Post Image -->
-        <div id="imagePostContainer" class="w-full bg-gray-100 rounded-lg overflow-hidden mb-3 hidden">
+        <div id="imagePostContainer" class="w-full bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden mb-3 hidden">
             <img id="imagePostPreview" src="" alt="Post Image" class="w-full h-auto object-cover max-h-96">
         </div>
 
-        <!-- Timestamp -->
-        <div class="text-gray-500 text-sm mb-3">
+        <div class="text-gray-500 dark:text-gray-400 text-sm mb-3">
             <span id="timestampPreview">10:30 PM · Jul 29, 2025</span>
         </div>
 
-        <!-- Engagement Stats -->
-        <div class="flex items-center justify-between text-gray-500 text-sm border-t border-b border-gray-100 py-3 mb-3">
+        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400 text-sm border-t border-b border-gray-100 dark:border-gray-700 py-3 mb-3">
             <div class="flex items-center space-x-1">
-                <!-- Comments Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
                 <span id="commentsCountPreview">15K</span>
             </div>
             <div class="flex items-center space-x-1">
-                <!-- Retweets Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-repeat"><path d="M17 1l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
                 <span id="retweetsCountPreview">25K</span>
             </div>
             <div class="flex items-center space-x-1">
-                <!-- Likes Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                         <span id="likesCountPreview">150K</span>
                     </div>
                     <div class="flex items-center space-x-1">
-                        <!-- Views Icon (Updated to bar chart) -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-bar-chart-2">
                             <line x1="18" x2="18" y1="20" y2="10"/>
                             <line x1="12" x2="12" y1="20" y2="4"/>
@@ -151,8 +173,7 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex justify-around text-gray-500">
+                <div class="flex justify-around text-gray-500 dark:text-gray-400">
                     <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
                     </button>
@@ -163,7 +184,6 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
                     </button>
                     <button class="flex items-center space-x-1 hover:text-blue-500 transition-colors">
-                        <!-- Share Icon (Updated to arrow-up-from-line) -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-arrow-up-from-line">
                             <path d="M2 17h20"/>
                             <path d="m18 10-6-6-6 6"/>
@@ -203,6 +223,25 @@
             const viewsCountPreview = document.getElementById('viewsCountPreview');
             const timestampPreview = document.getElementById('timestampPreview');
 
+            // Get references to theme elements
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const htmlElement = document.documentElement; // Represents the <html> tag
+
+
+            // Function to format numbers (e.g., 15000 -> 15K, 5000000 -> 5M)
+            function formatCount(num) {
+                if (isNaN(num)) return '0';
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+                }
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                }
+                return num.toLocaleString();
+            }
+
             // Function to update the post preview
             const updatePostPreview = () => {
                 usernamePreview.textContent = inputUsername.value;
@@ -215,17 +254,19 @@
                 timestampPreview.textContent = inputTimestamp.value;
             };
 
-            // Helper function to format numbers (e.g., 15000 -> 15K, 5000000 -> 5M)
-            function formatCount(num) {
-                if (isNaN(num)) return '0';
-                if (num >= 1000000) {
-                    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            // Function to apply the theme
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    moonIcon.style.display = 'block';
+                    sunIcon.style.display = 'none';
+                } else {
+                    htmlElement.classList.remove('dark');
+                    sunIcon.style.display = 'block';
+                    moonIcon.style.display = 'none';
                 }
-                if (num >= 1000) {
-                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-                }
-                return num.toLocaleString();
-            }
+                localStorage.setItem('theme', theme);
+            };
 
             // Handle profile picture upload
             inputProfilePic.addEventListener('change', (event) => {
@@ -266,8 +307,28 @@
             inputViews.addEventListener('input', updatePostPreview);
             inputTimestamp.addEventListener('input', updatePostPreview);
 
-            // Initial update on page load
-            updatePostPreview();
+            // Theme toggle functionality
+            themeToggle.addEventListener('click', () => {
+                if (htmlElement.classList.contains('dark')) {
+                    applyTheme('light');
+                } else {
+                    applyTheme('dark');
+                }
+            });
+
+            // Initial setup on page load
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Default to dark mode if OS preference is dark
+                applyTheme('dark');
+            } else {
+                // Default to light mode
+                applyTheme('light');
+            }
+            updatePostPreview(); // Initial update of the post preview
+
 
             // Fallback for image loading errors
             profilePicPreview.onerror = function() { this.src = "https://placehold.co/48x48/CCCCCC/000000?text=User"; };
@@ -279,3 +340,4 @@
     </script>
 </body>
 </html>
+```
